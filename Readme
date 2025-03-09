@@ -1,0 +1,137 @@
+# Library Management System with Auth0 Authentication
+
+This Django project implements a simple Library Management System with secure authentication using Auth0. Users can browse, add, edit, borrow, and return books.
+
+## Design Report
+1. Design Choices
+
+    1.1 Tech Stack:
+
+        Backend: Django (Python)
+        Frontend: HTML, CSS, JavaScript
+        Database: PostgreSQL
+        Authentication: Auth0 (SSO integration)
+
+2. Challenges Encountered & Solutions
+
+    2.1 PostgreSQL Installation Conflicts:
+        Challenge: Faced multiple conflicts while installing PostgreSQL, causing dependency issues.
+        Solution: Identified conflicting packages, cleaned up old installations, and properly configured PostgreSQL by resetting permissions and using the correct package versions.
+
+    2.2 SSO Authentication Complexity:
+        Challenge: Faced issues with improperly configured redirect URLs, causing authentication failures during login.
+        Solution: Identified misconfigured redirect URIs in the authentication providers (Auth0,Google), corrected them in the settings, and ensured consistency across environments.
+
+    2.3 Test Case Failures (IntegrityError: NOT NULL constraint failed):
+        Challenge: The added_by_id field was missing when creating a book during tests.
+        Solution: Updated test cases to ensure books are created with a valid added_by user.
+
+## Features
+
+* **Secure Authentication:** Uses Auth0 for user authentication, ensuring secure access to the application.
+* **Book Management:**
+    * Add, edit, and delete books.
+    * Search books by title or author.
+    * Mark books as borrowed or returned.
+* **User Management:**
+    * User accounts are created or retrieved from the Django database based on Auth0 user information.
+    * Books are tracked by the user who added them.
+* **Borrowing/Returning:**
+    * Users can borrow and return books.
+    * Tracks who borrowed a book and when.
+* **Email Notifications (Commented Out):**
+    * Optional email notifications for borrowing and returning books (requires email configuration).
+
+* **Protected Views:**
+    * Uses a custom decorator to ensure only authenticated users can access certain views.
+* **Search Functionality:**
+    * Search books by title or author.
+
+## Prerequisites
+
+* Python 3.x
+* pip
+* Virtual environment (recommended)
+* Auth0 account
+
+## Installation
+
+1.  **Clone the repository:**
+
+    ```bash
+    git clone <repository_url>
+    cd <project_directory>
+    ```
+
+2.  **Create a virtual environment (recommended):**
+
+    ```bash
+    python -m venv venv
+    source venv/bin/activate  # On macOS/Linux
+    venv\Scripts\activate  # On Windows
+    ```
+
+3.  **Install dependencies:**
+
+    ```bash
+    pip install -r requirements.txt
+    ```
+
+4.  **Create a `.env` file in the project's root directory and add your Auth0 credentials:**
+
+    ```
+    AUTH0_DOMAIN=<your_auth0_domain>
+    AUTH0_CLIENT_ID=<your_auth0_client_id>
+    AUTH0_CLIENT_SECRET=<your_auth0_client_secret>
+    EMAIL_HOST_USER=<your_email_address>
+    EMAIL_HOST_PASSWORD=<your_email_password>
+    ```
+
+    \*Also ensure your email settings are correct in the settings.py file.
+
+5.  **Apply database migrations:**
+
+    ```bash
+    python manage.py migrate
+    ```
+
+6.  **Create a superuser (optional):**
+
+    ```bash
+    python manage.py createsuperuser
+    ```
+
+7.  **Run the development server:**
+
+    ```bash
+    python manage.py runserver
+    ```
+
+8.  **Access the application in your browser:**
+
+    ```
+    [http://127.0.0.1:8000/]
+    ```
+
+## Configuration
+
+* **Auth0:**
+    * Configure your Auth0 application with the correct callback URLs.
+    * Set the allowed web origins and allowed logout URLs.
+* **Email :**
+    * Configure email settings in `library_management/settings.py` if you want to enable email notifications.
+    * Ensure the .env file has the email login credentials.
+* **Database:**
+    * The project uses PostgreSQL databases in `library_management/settings.py`.
+
+## Usage
+
+1.  **Login:** Click the "Login" button to authenticate with Auth0.
+2.  **Browse Books:** View the list of books on the main page.
+3.  **Add Books:** Click the "Add Book" button to add a new book.
+4.  **Edit/Delete Books:** Click the "Edit" or "Delete" buttons next to a book to modify or remove it.
+5.  **Borrow/Return Books:** Click the "Borrow" or "Return" buttons to manage book borrowing.
+6.  **Search:** Use the search bar to find books by title or author.
+7.  **Logout:** Click the "Logout" button to log out.
+
+

@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <h2 class="mt-4">Library Books</h2>
+
+    <!-- Search Form -->
+    <form method="GET" class="mb-3 d-flex">
+        <input type="text" name="q" class="form-control me-2" placeholder="Search by title or author" value="{{ query }}">
+        <button type="submit" class="btn btn-primary">Search</button>
+        <a href="{% url 'book_new' %}" class="btn btn-success ms-2">Add Book</a>
+    </form>
+
+    <!-- Book List Table -->
+    <table class="table table-striped">
+        <thead class="table-dark">
+            <tr>
+                <th>Title</th>
+                <th>Author</th>
+                <th>Published Date</th>
+                <th>Borrowed By</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for book in books %}
+                <tr>
+                    <td>{{ book.title }}</td>
+                    <td>{{ book.author }}</td>
+                    <td>{{ book.published_date|default:"N/A" }}</td>
+                    <td>
+                        {% if book.is_borrowed %}
+                            <span class="text-danger">{{ book.borrowed_by }}</span>
+                        {% else %}
+                            <span class="text-success">Available</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        <a href="{% url 'book_edit' book.id %}" class="btn btn-warning btn-sm">Edit</a>
+                        <a href="{% url 'book_delete' book.id %}" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure?');">Delete</a>
+
+                        {% if book.is_borrowed %}
+                            {% if book.borrowed_by == request.user %}
+                                <a href="{% url 'return_book' book.id %}" class="btn btn-success btn-sm">Return</a>
+                            {% endif %}
+                        {% else %}
+                            <a href="{% url 'borrow_book' book.id %}" class="btn btn-primary btn-sm">Borrow</a>
+                        {% endif %}
+                    </td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="5" class="text-center">No books found.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

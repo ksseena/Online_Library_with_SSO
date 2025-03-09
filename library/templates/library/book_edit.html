@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="container">
+        <h2 class="mt-4">Edit Book</h2>
+
+        <form method="POST" class="mt-3">
+            {% csrf_token %}
+            <div class="mb-3">
+                <label for="title" class="form-label">Title</label>
+                <input type="text" name="title" id="title" class="form-control" value="{{ book.title }}" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="author" class="form-label">Author</label>
+                <input type="text" name="author" id="author" class="form-control" value="{{ book.author }}" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="published_date" class="form-label">Published Date</label>
+                <input type="date" name="published_date" id="published_date" class="form-control" value="{{ book.published_date|date:'Y-m-d' }}">
+            </div>
+
+            <button type="submit" class="btn btn-primary">Update Book</button>
+            <a href="{% url 'book_list' %}" class="btn btn-secondary">Cancel</a>
+        </form>
+    </div>
+{% endblock %}
