@@ -57,7 +57,7 @@ This Django project implements a simple Library Management System with secure au
 ## Installation
 
 1.  **Clone the repository:**
-
+    url: https://github.com/ksseena/Online_Library_with_SSO.git
     ```bash
     git clone <repository_url>
     cd <project_directory>
